@@ -112,3 +112,31 @@ export async function obtenerClientePorDocumento(documento: string) {
     });
     return cliente;
 }
+
+
+export async function editarCliente(data: any) {
+    const dataGet = typeof data === 'string' ? JSON.parse(data) : data;
+
+    if (!dataGet.id) {
+        throw new Error("El id del cliente es requerido");
+    }
+
+    const validacion = clienteSchemaEditar.safeParse(dataGet);
+    if (!validacion.success) {
+        console.log("Error al validar el esquema del cliente", validacion.error);
+        throw new Error("Error al validar el esquema del cliente");
+    }
+
+    const idCliente = dataGet.id;
+    delete dataGet.id;
+    delete dataGet.ClienteMotocicleta
+
+    const clienteActualizado = await prisma.cliente.update({
+        where: {
+            id: idCliente
+        },
+        data: dataGet
+    });
+
+    return clienteActualizado;
+}

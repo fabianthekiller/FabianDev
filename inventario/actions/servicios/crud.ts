@@ -69,3 +69,31 @@ export async function crearServicio(data: any) {
 
     return servicioCreado;
 }
+
+
+
+export async function editarServicio(data: any) {
+    const dataGet = typeof data === 'string' ? JSON.parse(data) : data;
+
+    if (!dataGet.id) {
+        throw new Error("El id del servicio es requerido");
+    }
+
+    const validacion = servicioSchemaEditar.safeParse(dataGet);
+    if (!validacion.success) {
+        console.log("Error al validar el esquema del servicio", validacion.error);
+        throw new Error("Error al validar el esquema del servicio");
+    }
+
+    const idServicio = dataGet.id;
+    delete dataGet.id;
+
+    const servicioActualizado = await prisma.servicio.update({
+        where: {
+            id: idServicio
+        },
+        data: dataGet
+    });
+
+    return servicioActualizado;
+}

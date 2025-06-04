@@ -156,3 +156,48 @@ export async function obtenerReparacionesPorDocumentoCliente(documento: string) 
 }
 
 
+export async function editarReparacion(data: any) {
+    const dataGet = typeof data === 'string' ? JSON.parse(data) : data;
+
+    if (!dataGet.id) {
+        throw new Error("El id de la reparación es requerido");
+    }
+
+    if (dataGet.fecha) {
+        const fecha = moment(dataGet.fecha, "DD/MM/YYYY").toDate().toISOString();
+        dataGet.fecha = fecha;
+    }
+
+    if (dataGet.cliente) {
+        dataGet.clienteId = dataGet.cliente.id;
+        delete dataGet.cliente;
+    }
+
+    if (dataGet.extends) {
+        delete dataGet.extends;
+    }
+
+
+    const validacion = reparacionSchemaEditar.safeParse(dataGet);
+    if (!validacion.success) {
+        console.log("Error al validar el esquema de la reparación", validacion.error);
+        throw new Error("Error al validar el esquema de la reparación");
+    }
+
+    const idReparacion = dataGet.id;
+    delete dataGet.id;
+    delete dataGet.ReparacionPartes;
+    delete dataGet.mecanico;
+    delete dataGet.cliente;
+
+
+    const reparacionActualizada = await prisma.reparacion.update({
+        where: {
+            id: idReparacion
+        },
+        data: dataGet
+    });
+
+    return reparacionActualizada;
+}
+

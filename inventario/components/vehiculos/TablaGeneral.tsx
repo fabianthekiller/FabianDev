@@ -198,9 +198,12 @@ export const VehiculosTabla: FC<Vehiculo> = ({
                                             tooltip={'Editar ' + tipoSwitch(Tipo ? Tipo : 'vehiculos')}
                                             tooltipOptions={{ position: 'top' }}
                                             onClick={() => {
-                                                router.push(editarRuta ? editarRuta : '/taller/vehiculos/editar');
+                                                router.push(editarRuta ? editarRuta+ '?id=' + motoSeleccionada?.id : motoSeleccionada ? '/taller/vehiculos/editar?id=' + motoSeleccionada.id : '/taller/vehiculos/editar');
                                             }
                                             }
+                    
+                                            
+                                            
                                             disabled={motoSeleccionada === null}
                                         />
                                         <Button icon="pi pi-trash" className="p-button-danger mr-2"
@@ -211,13 +214,10 @@ export const VehiculosTabla: FC<Vehiculo> = ({
                                                 eliminarObjeto
                                             }
                                             disabled={motoSeleccionada === null}
-
+                                            hidden={true}
 
                                         />
-                                        <Button icon="pi pi-download" className="p-button-help mr-2" />
-                                        <Button icon="pi pi-upload" className="p-button-info mr-2" />
-                                        <Button icon="pi pi-file" className="p-button-secondary mr-2" />
-                                        <Button icon="pi pi-print" className="p-button-secondary mr-2" />
+
                                     </div>
 
                                 }

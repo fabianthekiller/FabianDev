@@ -3,7 +3,7 @@ import { motocicletaSchemaCrear } from './motocicleta';
 
 export const clienteSchemaEditar = z.object(
     {
-        id: z.string().uuid().describe('ID del cliente'),
+        id: z.string().describe('ID del cliente'),
         nombre: z.string().describe('Nombre').min(1, { message: 'El nombre es obligatorio' }),
         documento: z.string().describe('Documento').optional(),
         telefono: z.string().describe('Teléfono').optional(),
@@ -11,9 +11,9 @@ export const clienteSchemaEditar = z.object(
         direccion: z.string().describe('Dirección').optional(),
         ClienteMotocicleta: z.array(
             z.object({
-                id: z.string().uuid().describe('ID de la motocicleta'),
-                motocicletaId: z.string().uuid().describe('ID de la motocicleta'),
-                clienteId: z.string().uuid().describe('ID del cliente'),
+                id: z.string().describe('ID de la motocicleta'),
+                motocicletaId: z.string().describe('ID de la motocicleta'),
+                clienteId: z.string().describe('ID del cliente'),
                 placa: z.string().describe('Placa de la motocicleta'),
             })
         ).optional().describe('Motocicletas del cliente'),

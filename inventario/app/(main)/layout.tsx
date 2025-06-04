@@ -3,6 +3,9 @@ import type { Viewport } from 'next'
 import { SessionProvider } from "next-auth/react"
 
 import Layout from '@/layout/layout';
+import "primereact/resources/themes/lara-dark-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeflex/primeflex.css";
 
 interface AppLayoutProps {
     children: React.ReactNode;

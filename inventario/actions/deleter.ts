@@ -44,6 +44,28 @@ export async function eliminarElemento(id: string, tipo: string) {
             },
         });
     }
+    else if (tipo === "clientes") {
+        res = await prisma.cliente.delete({
+            where: {
+                id: id,
+            },
+        });
+    }
+    else if (tipo === "reparaciones") {
+        res = await prisma.reparacion.delete({
+            where: {
+                id: id,
+            },
+        });
+    }
+    else if (tipo === "reparacionPartes") {
+        res = await prisma.reparacionPartes.delete({
+            where: {
+                id: id,
+            },
+        });
+    }
+    
 
 
     else {

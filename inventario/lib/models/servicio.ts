@@ -8,7 +8,7 @@ export const servicioSchemaCrear = z.object({
 });
 
 export const servicioSchemaEditar = z.object({
-  id: z.string().uuid().describe("ID del servicio"),
+  id: z.string().describe("ID del servicio"),
   nombre: z.string().describe("Nombre").min(1, { message: "El nombre es obligatorio" }),
   descripcion: z.string().describe("Descripción").optional(),
   precio: z.number().describe("Precio").min(0, { message: "El precio es inválido" }),

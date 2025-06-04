@@ -83,3 +83,34 @@ export async function eliminarParte(id: string) {
     });
     return parteEliminada;
 }
+
+
+export async function editarParte(data: any) {
+    const dataGet = typeof data === 'string' ? JSON.parse(data) : data;
+
+    if (!dataGet.id) {
+        throw new Error("El id de la parte es requerido");
+    }
+
+    if (dataGet.proveedor) {
+        dataGet.proveedorId = dataGet.proveedor.id;
+        delete dataGet.proveedor;
+    }
+
+    const validacion = parteSchemaEditar.safeParse(dataGet);
+    if (!validacion.success) {
+        console.log("Error al validar el esquema de la parte", validacion.error);
+        throw new Error("Error al validar el esquema de la parte");
+    }
+
+    const idParte = dataGet.id;
+    delete dataGet.id;
+    const parteActualizada = await prisma.partes.update({
+        where: {
+            id: idParte
+        },
+        data: dataGet
+    });
+
+    return parteActualizada;
+}

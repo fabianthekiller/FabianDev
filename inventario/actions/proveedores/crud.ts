@@ -78,3 +78,28 @@ export async function buscarProveedorPorNombre(nombre: string) {
     });
     return proveedor;
 }
+
+export async function editarProveedor(data: any) {
+    const dataGet = typeof data === 'string' ? JSON.parse(data) : data;
+
+    if (!dataGet.id) {
+        throw new Error("El id del proveedor es requerido");
+    }
+
+    const validacion = proveedorSchemaEditar.safeParse(dataGet);
+    if (!validacion.success) {
+        console.log("Error al validar el esquema del proveedor", validacion.error);
+        throw new Error("Error al validar el esquema del proveedor");
+    }
+
+    const idProveedor = dataGet.id;
+    delete dataGet.id;
+    const proveedorActualizado = await prisma.proveedor.update({
+        where: {
+            id: idProveedor
+        },
+        data: dataGet
+    });
+
+    return proveedorActualizado;
+}

@@ -13,6 +13,7 @@ import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from "primereact/toast";
 import { crearElemento } from "@/actions/adder";
+import { actualizarElemento } from "@/actions/updater";
 import { AutoComplete, AutoCompleteCompleteEvent } from "primereact/autocomplete";
 import { buscarElemento } from "@/actions/searcher";
 import { asignarElemento } from "@/actions/asigner";
@@ -84,6 +85,8 @@ export const FormComponent: FC<FormComponentProps> = ({
         , [esquema]);
 
 
+        
+
 
     const formik = useFormik({
         initialValues: valoresIniciales,
@@ -113,7 +116,7 @@ export const FormComponent: FC<FormComponentProps> = ({
                     })
 
                     formik.resetForm();
-                    // router.back();
+                    router.back();
                 }
                 else {
                     toast.current?.show({
@@ -125,9 +128,33 @@ export const FormComponent: FC<FormComponentProps> = ({
                 }
             }
             else if (modo === 'editar') {
-                //editarFCN(values);
 
-                editarFCN?.(values);
+                if (!tipoCreacion) {
+                    throw new Error("tipoCreacion is undefined");
+                }
+
+                const editar = await actualizarElemento(values, tipoCreacion);
+                console.log('editar', editar);
+                if (editar) {
+                    toast.current?.show({
+                        severity: 'success',
+                        summary: 'Exito',
+                        detail: 'Editado correctamente',
+                        life: 3000
+                    })
+
+                    formik.resetForm();
+                    router.back();
+                }
+                else {
+                    toast.current?.show({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Error al editar',
+                        life: 3000
+                    });
+                }
+
 
             }
             else if (modo === 'asignar') {
@@ -231,7 +258,7 @@ export const FormComponent: FC<FormComponentProps> = ({
 
 
 
-                                        {propiedad.type === 'string' && esquema.properties[key].description !== 'Descripción' && esquema.properties[key].description !== 'Imagen'
+                                        {propiedad.type === 'string' && esquema.properties[key].description !== 'Descripción' && esquema.properties[key].description !== 'Imagen' && esquema.properties[key].description !== 'Fecha'
 
 
                                             && (<>
@@ -264,6 +291,24 @@ export const FormComponent: FC<FormComponentProps> = ({
                                             </>
 
                                             )}
+
+                                            {
+                                                propiedad.type === 'string' && esquema.properties[key].description === 'Fecha' && (
+                                                    <>
+                                                        <label htmlFor={key}>{esquema.properties[key].description
+                                                            || key}</label>
+                                                        <Calendar
+                                                            id={key}
+                                                            name={key}
+                                                            onChange={formik.handleChange}
+                                                            onBlur={formik.handleBlur}
+                                                            value={formik.values[key]}
+                                                            dateFormat="dd/mm/yy"
+                                                            showIcon
+                                                        />
+                                                    </>
+                                                )
+                                            }
 
                                         {
                                             propiedad.type === 'string' && esquema.properties[key].description === 'Descripción' && (
@@ -386,7 +431,7 @@ export const FormComponent: FC<FormComponentProps> = ({
                                                 />
                                             </>
                                         )}
-                                        {propiedad.type === 'array' && (
+                                        {propiedad.type === 'array' && modo !== 'asignar' && modo !== 'editar' && (
                                             <>
                                                 <label htmlFor={key}>{esquema.properties[key].description
                                                     || key}</label>
@@ -398,9 +443,12 @@ export const FormComponent: FC<FormComponentProps> = ({
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values[key]}
                                                 />
-                                                /</>
+                                                </>
                                         )}
-                                        {propiedad.type === 'object' && esquema.properties[key].description !== "Extensiones" && (
+                                        {propiedad.type === 'object' && esquema.properties[key].description !== "Extensiones" && 
+                                        modo !== 'editar' &&
+                                        
+                                        (
 
                                             <>
                                                 <label htmlFor={key}>{esquema.properties[key].description
