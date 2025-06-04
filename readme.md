@@ -1,4 +1,4 @@
-# Rosal Motos - Sistema de Inventario
+# Rosal Motos - Sistema de Inventario por Fabian Guamanga
 
 Sistema moderno de gestión de inventario implementado con Next.js 14.2.26 y MongoDB.
 
