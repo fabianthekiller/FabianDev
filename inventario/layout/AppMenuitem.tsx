@@ -3,33 +3,40 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Ripple } from 'primereact/ripple';
 import { classNames } from 'primereact/utils';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, Suspense } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { MenuContext } from './context/menucontext';
 import { AppMenuItemProps } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-const AppMenuitem = (props: AppMenuItemProps) => {
+
+// Componente interno para manejar la lógica de navegación
+const NavigationHandler = ({ onRouteChange }: { onRouteChange: (url: string) => void }) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+
+    useEffect(() => {
+        onRouteChange(pathname);
+    }, [pathname, searchParams, onRouteChange]);
+
+    return null;
+};
+
+const AppMenuitem = (props: AppMenuItemProps) => {
+    const pathname = usePathname();
     const { activeMenu, setActiveMenu } = useContext(MenuContext);
     const item = props.item;
-
-    
 
     const key = props.parentKey ? props.parentKey + '-' + props.index : String(props.index);
     const isActiveRoute = item!.to && pathname === item!.to;
     const active = activeMenu === key || activeMenu.startsWith(key + '-');
+
     const onRouteChange = (url: string) => {
         if (item!.to && item!.to === url) {
             setActiveMenu(key);
         }
     };
 
-    useEffect(() => {
-        onRouteChange(pathname);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname, searchParams]);
 
     const itemClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         //avoid processing disabled items
@@ -60,6 +67,9 @@ const AppMenuitem = (props: AppMenuItemProps) => {
 
     return (
         <li className={classNames({ 'layout-root-menuitem': props.root, 'active-menuitem': active })}>
+            <Suspense fallback={null}>
+                <NavigationHandler onRouteChange={onRouteChange} />
+            </Suspense>
             {props.root && item!.visible !== false && <div className="layout-menuitem-root-text">{item!.label}</div>}
             {(!item!.to || item!.items) && item!.visible !== false ? (
                 <a href={item!.url} onClick={(e) => itemClick(e)} className={classNames(item!.class, 'p-ripple')} target={item!.target} tabIndex={0}>
@@ -68,7 +78,7 @@ const AppMenuitem = (props: AppMenuItemProps) => {
                     ) : (
                         item!.icon
                     )}
-                    
+
                     <span className="layout-menuitem-text">{item!.label}</span>
                     {item!.items && <i className="pi pi-fw pi-angle-down layout-submenu-toggler"></i>}
                     <Ripple />

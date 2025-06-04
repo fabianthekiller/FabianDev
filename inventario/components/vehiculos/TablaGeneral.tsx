@@ -59,7 +59,7 @@ export const VehiculosTabla: FC<Vehiculo> = ({
 
 
     useEffect(() => {
-        if (elementosData === null) {
+        if (elementosData === null || elementosData.length === 0 || unidades === null || unidades === undefined || elementosData.length !== JSON.parse(unidades).length) {
             setCargandoDataMotos(true);
             // Convertir la cadena JSON a un objeto JavaScript
             const motosObj = JSON.parse(unidades);
@@ -223,21 +223,7 @@ export const VehiculosTabla: FC<Vehiculo> = ({
                                 }
                                 end={
                                     <div className="flex align-items-center">
-                                        <Button tooltip='Inicializar' icon="pi pi-refresh" className="p-button-info mr-2"
-                                            onClick={async () => {
-                                                // Inicializar la tabla de vehiculos
-                                                // initVehiculos();
-                                                setInicializandoMotos(true);
-                                                await initVehiculos()
-                                                
 
-                                                setInicializandoMotos(false);
-                                                await updateData();
-                                            }
-                                            }
-                                            disabled={elementosData !== null && elementosData.length > 0}
-                                            loading={inicializandoMotos}
-                                        />
                                     </div>
                                 }
                             >

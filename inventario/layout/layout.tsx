@@ -14,6 +14,7 @@ import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { SessionProvider } from "next-auth/react"
+import { Suspense } from 'react';
 
 
 const Layout = ({ children }: ChildContainerProps) => {
@@ -21,6 +22,8 @@ const Layout = ({ children }: ChildContainerProps) => {
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname();
+
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {
@@ -37,12 +40,18 @@ const Layout = ({ children }: ChildContainerProps) => {
         }
     });
 
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    useEffect(() => {
-        hideMenu();
-        hideProfileMenu();
-    }, [pathname, searchParams]);
+
+    // Componente interno para manejar searchParams
+    const SearchParamsHandler = () => {
+        const searchParams = useSearchParams();
+
+        useEffect(() => {
+            hideMenu();
+            hideProfileMenu();
+        }, [pathname, searchParams]);
+
+        return null;
+    };
 
     const [bindProfileMenuOutsideClickListener, unbindProfileMenuOutsideClickListener] = useEventListener({
         type: 'click',
@@ -126,10 +135,13 @@ const Layout = ({ children }: ChildContainerProps) => {
 
     return (
         <React.Fragment>
-        
+
             <div className={containerClass}>
+                <Suspense fallback={null}>
+                    <SearchParamsHandler />
+                </Suspense>
                 <SessionProvider>
-                <AppTopbar ref={topbarRef} />
+                    <AppTopbar ref={topbarRef} />
                 </SessionProvider>
                 <div ref={sidebarRef} className="layout-sidebar">
                     <AppSidebar />

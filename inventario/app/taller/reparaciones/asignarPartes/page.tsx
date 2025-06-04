@@ -2,7 +2,6 @@ import { obtenerClientePorId, obtenerEsquemaClienteAsignarMotocicleta } from "@/
 import { crearParte  } from "@/actions/partes/crud";
 import { obtenerEsquemaReparacionAsignarParte, obtenerReparacionPorId } from "@/actions/reparacion/crud";
 import FormComponent from "@/components/formComponent";
-import {  useSearchParams } from "next/navigation";
 import { Card } from "primereact/card";
 
 

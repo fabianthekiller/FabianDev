@@ -514,12 +514,6 @@ export const FormComponent: FC<FormComponentProps> = ({
                                 }
                             />
 
-                            <Button type="button" label="Ver formik" className="p-button-secondary"
-                                onClick={() => {
-                                    
-                                }
-                                }
-                            />
                         </div>
                     </form>
 

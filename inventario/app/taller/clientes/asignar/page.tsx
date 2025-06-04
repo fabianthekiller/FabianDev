@@ -1,7 +1,6 @@
 import { obtenerClientePorId, obtenerEsquemaClienteAsignarMotocicleta } from "@/actions/cliente/crud";
 import { crearParte  } from "@/actions/partes/crud";
 import FormComponent from "@/components/formComponent";
-import {  useSearchParams } from "next/navigation";
 import { Card } from "primereact/card";
 
 
