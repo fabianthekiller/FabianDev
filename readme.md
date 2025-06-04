@@ -77,32 +77,107 @@ Si encuentra problemas de conexión:
 2. Comprobar que los puertos 27017 y 4000 estén disponibles
 3. Revisar logs: `docker-compose logs`
 
+
+
 ## Exposición a Internet con Tailscale
 
-### Configuración de Tailscale Funnel
+### Configuración Inicial de Tailscale
 
-1. Instalar Tailscale:
+1. Instalar Tailscale en el servidor:
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
 ```
 
-2. Iniciar sesión:
+2. Autenticar el nodo:
 ```bash
 tailscale up
 ```
 
-3. Habilitar Funnel para el servicio:
+### Configuración de Tailscale Funnel
+
+Tailscale Funnel es un servicio que permite exponer servicios HTTP/HTTPS de forma segura a Internet.
+
+1. Habilitar Funnel para el puerto 3000:
 ```bash
 tailscale funnel 3000
 ```
 
-El servicio estará disponible en:
-`https://<your-tailscale-name>.ts.net`
+2. Verificar estado del Funnel:
+```bash
+tailscale funnel status
+```
 
-### Notas de Seguridad
-- Asegurarse de tener las políticas de ACL configuradas
-- Monitorear el tráfico entrante
-- Considerar límites de ancho de banda
+3. Para múltiples servicios:
+```bash
+tailscale funnel --https=443 3000 4000 27017
+```
+
+### DNS y Dominios
+
+- El servicio será accesible en: `https://<hostname>.ts.net`
+- Configurar DNS personalizado (opcional):
+```bash
+tailscale set --hostname=rosalmotos
+```
+
+### Seguridad y Control de Acceso
+
+1. Configurar ACLs en la consola de Tailscale:
+```hcl
+{
+    "acls": [
+        {"action": "accept", "users": ["*"], "ports": ["*:3000"]}
+    ]
+}
+```
+
+2. Restricción por dominios:
+```bash
+tailscale funnel 3000 --allow-domains=rosalmotos.com
+```
+
+### Monitoreo y Logs
+
+1. Ver conexiones activas:
+```bash
+tailscale netcheck
+```
+
+2. Monitorear tráfico:
+```bash
+tailscale status --json
+```
+
+### Comandos Útiles
+
+```bash
+# Detener Funnel
+tailscale funnel reset
+
+# Reconfigurar nodo
+tailscale up --reset
+
+# Ver estado detallado
+tailscale status --active
+```
+
+### Troubleshooting
+
+1. Problemas de conexión:
+```bash
+tailscale diagnose
+```
+
+2. Verificar puertos:
+```bash
+sudo lsof -i :3000
+```
+
+3. Logs del sistema:
+```bash
+sudo journalctl -u tailscaled
+```
+
 
 
 ## Autenticación y Seguridad
