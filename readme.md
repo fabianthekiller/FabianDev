@@ -14,7 +14,8 @@ Correo:
 
 fabiandev@gmail.com
 
-Contraseña
+Contraseña:
+
 Choco23
 
 
