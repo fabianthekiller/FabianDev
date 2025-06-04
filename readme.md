@@ -6,6 +6,18 @@ Sistema moderno de gestión de inventario implementado con Next.js 14.2.26 y Mon
 El sistema está actualmente desplegado y accesible en:
 
 [https://server.tail115826.ts.net/](https://server.tail115826.ts.net/)
+
+
+## Credenciales
+
+Correo:
+
+fabiandev@gmail.com
+
+Contraseña
+Choco23
+
+
 ## Requisitos Previos
 
 - Docker Desktop instalado y en ejecución

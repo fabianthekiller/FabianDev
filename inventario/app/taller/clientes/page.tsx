@@ -7,8 +7,8 @@ export default async function ClientePageServer() {
     const clientes = await obtenerTodosLosClientes() !== null ? await obtenerTodosLosClientes() : [];
 
 
-   );
-   
+
+
 
     const esquemaCliente = await obtenerEsquemaClienteEditar();
 
@@ -20,7 +20,7 @@ export default async function ClientePageServer() {
     const keys = Object.keys(esquemaParseado.properties);
 
 
-    );
+
     
 
     return (
