@@ -61,7 +61,7 @@ export async function crearParte(data: any) {
 
     const validacion = parteSchemaCrear.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema de la parte", validacion.error);
+        
         throw new Error("Error al validar el esquema de la parte");
     }
     // Validar el esquema de la parte
@@ -99,7 +99,7 @@ export async function editarParte(data: any) {
 
     const validacion = parteSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema de la parte", validacion.error);
+        
         throw new Error("Error al validar el esquema de la parte");
     }
 

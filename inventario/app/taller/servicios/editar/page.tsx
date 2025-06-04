@@ -141,7 +141,7 @@ export default async function ServicioEditarPage({
         }, {});
 
 
-        console.log("Valores iniciales de la servicio:", valoresIniciales);
+        
         
 
     return (

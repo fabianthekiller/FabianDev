@@ -2,13 +2,19 @@
 
 import React, { useContext } from 'react';
 import { LayoutContext } from './context/layoutcontext';
+import Image from 'next/image';
 
 const AppFooter = () => {
     const { layoutConfig } = useContext(LayoutContext);
 
     return (
         <div className="layout-footer">
-            <img src={`/logo.png`} alt="logo" width="50" height="50" className="w-2rem h-2rem mr-2" />
+                <Image 
+                    src={layoutConfig.colorScheme !== 'dark' ? '/logo_white.png' : '/logo.png'} 
+                    width={50} 
+                    height={50} 
+                    alt="logo"
+                />
             <span className="font-medium ml-2">Rosal motos</span>
         </div>
     );

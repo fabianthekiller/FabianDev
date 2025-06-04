@@ -10,7 +10,7 @@ export async function asignarElemento(data: any, tipo: string) {
 
     if (tipo === "clienteAsignarMotocicleta") {
 
-        console.log("asignarElemento", data, tipo);
+        
 
 
         delete data["cliente"];
@@ -23,7 +23,7 @@ export async function asignarElemento(data: any, tipo: string) {
     }
 
     else if (tipo === "reparacionAsignarParte") {
-        console.log("asignarElemento", data, tipo);
+        
 
         delete data["reparacion"];
         delete data["parte"];

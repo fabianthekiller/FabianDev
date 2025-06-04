@@ -148,7 +148,7 @@ const FacturaCMP = () => {
         try {
             const response = await obtenerClientePorDocumento(documentoCliente);
 
-            console.log("Cliente encontrado:", response);
+            
 
 
             if (response) {
@@ -208,7 +208,7 @@ const FacturaCMP = () => {
         try {
             const response = await obtenerReparacionesPorDocumentoCliente(clienteDoc.documento);
 
-            console.log("Reparaciones encontradas:", response);
+            
 
 
             if (response && response.length) {
@@ -231,7 +231,7 @@ const FacturaCMP = () => {
     const cargarServiciosDisponibles = async () => {
         try {
             const response = await obtenerTodosLosServicios()
-            console.log("Servicios disponibles:", response);
+            
             if (response && response.length) {
                 setServiciosDisponibles(response);
             } else {
@@ -257,7 +257,7 @@ const FacturaCMP = () => {
             .filter(rep => rep.selected)
             .reduce((sum, rep) => {
                 // Imprimir para debug
-                console.log('Reparación:', rep.nombre, 'Precio:', rep.precioTotal);
+                
 
                 // Convertir explícitamente a número
                 const precio = Number(rep.precioTotal) || 0;
@@ -268,16 +268,16 @@ const FacturaCMP = () => {
         const totalServicios = serviciosSeleccionados
             .reduce((sum, serv) => {
                 // Imprimir para debug
-                console.log('Servicio:', serv.nombre, 'Precio:', serv.precio);
+                
 
                 // Convertir explícitamente a número
                 const precio = Number(serv.precio) || 0;
                 return sum + precio;
             }, 0);
 
-        console.log('Total Reparaciones:', totalReparaciones);
-        console.log('Total Servicios:', totalServicios);
-        console.log('Total Final:', totalReparaciones + totalServicios);
+        
+        
+        
 
         return totalReparaciones + totalServicios;
     };
@@ -738,7 +738,7 @@ const FacturaCMP = () => {
                                     .then((response: any) => {
                                         const data = response.data;
                                       
-                                        console.log("Datos JSON:", data);
+                                        
                                         
 
                                     })
@@ -754,7 +754,7 @@ const FacturaCMP = () => {
                                 const { prueba } = await import('@/actions/prueba');
                                 try {
                                     const data = await prueba();
-                                    console.log("Datos de prueba:", data);
+                                    
                                     toast.current?.show({
                                         severity: 'success',
                                         summary: 'Éxito',

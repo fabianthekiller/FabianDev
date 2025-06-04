@@ -180,7 +180,7 @@ export async function editarReparacion(data: any) {
 
     const validacion = reparacionSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema de la reparación", validacion.error);
+        
         throw new Error("Error al validar el esquema de la reparación");
     }
 

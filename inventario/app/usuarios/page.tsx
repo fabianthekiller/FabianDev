@@ -13,7 +13,7 @@ export default async function UsersPageServer() {
 
     const is_admin = usuarios.filter((user) => user.email === session?.user?.email && user.is_admin)[0];
 
-    console.log("Is Admin:", is_admin);
+    
     
 
 

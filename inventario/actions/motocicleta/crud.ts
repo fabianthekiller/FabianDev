@@ -42,7 +42,7 @@ export async function crearMoto(data: any) {
 
     const validacion = motocicletaSchemaCrear.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema de la moto", validacion.error);
+        
         throw new Error("Error al validar el esquema de la moto");
     }
     // Validar el esquema de la moto
@@ -86,7 +86,7 @@ export async function editarMoto(data: any) {
 
     const validacion = motocicletaSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema de la moto", validacion.error);
+        
         throw new Error("Error al validar el esquema de la moto");
     }
 

@@ -48,7 +48,7 @@ export async function crearProveedor(data: any) {
 
     const validacion = proveedorSchemaCrear.safeParse(data);
     if (!validacion.success) {
-        console.log("Error al validar el esquema del proveedor", validacion.error);
+        
         throw new Error("Error al validar el esquema del proveedor");
     }
     // Validar el esquema del proveedor
@@ -88,7 +88,7 @@ export async function editarProveedor(data: any) {
 
     const validacion = proveedorSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema del proveedor", validacion.error);
+        
         throw new Error("Error al validar el esquema del proveedor");
     }
 

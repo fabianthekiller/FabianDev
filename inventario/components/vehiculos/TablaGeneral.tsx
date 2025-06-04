@@ -102,7 +102,7 @@ export const VehiculosTabla: FC<Vehiculo> = ({
 
     const acceptarEliminarObjeto = async () => {
         const res = await eliminarElemento(motoSeleccionada.id, Tipo ? Tipo : 'vehiculos');
-        console.log("res", res);
+        
 
         if (res) {
             toast.current?.show({ severity: 'success', summary: 'Eliminado', detail: 'El objeto ha sido eliminado', life: 3000 });
@@ -229,7 +229,7 @@ export const VehiculosTabla: FC<Vehiculo> = ({
                                                 // initVehiculos();
                                                 setInicializandoMotos(true);
                                                 await initVehiculos()
-                                                console.log('Inicializando tabla de vehiculos');
+                                                
 
                                                 setInicializandoMotos(false);
                                                 await updateData();
@@ -361,8 +361,8 @@ export const VehiculosTabla: FC<Vehiculo> = ({
 
                                             {
                                                 if (esquema.properties[key].type === 'array' && key === 'ClienteMotocicleta') {
-                                                    console.log("key", key);
-                                                    console.log("rowData[key]", rowData[key]);
+                                                    
+                                                    
                                                     
                                                     return (
                                                         <div className='grid justify-content-center gap-2'>
@@ -414,8 +414,8 @@ export const VehiculosTabla: FC<Vehiculo> = ({
 
                                             {
                                                 if (esquema.properties[key].type === 'array' && key === 'ReparacionPartes') {
-                                                    console.log("key", key);
-                                                    console.log("rowData[key]", rowData[key]);
+                                                    
+                                                    
                                                     
                                                     return (
                                                         <div className='grid justify-content-center gap-2'>

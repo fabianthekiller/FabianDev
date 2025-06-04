@@ -8,7 +8,7 @@ export default async function ReparacionesPageServer() {
     const esquemaParte = await obtenerEsquemaReparacionEditar();
 
 
-    console.log("motos", motos);
+    
     
 
 

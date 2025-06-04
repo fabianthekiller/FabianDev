@@ -52,7 +52,7 @@ export async function crearServicio(data: any) {
 
     const validacion = servicioSchemaCrear.safeParse(data);
     if (!validacion.success) {
-        console.log("Error al validar el esquema del servicio", validacion.error);
+        
         throw new Error("Error al validar el esquema del servicio");
     }
     // Validar el esquema del servicio
@@ -81,7 +81,7 @@ export async function editarServicio(data: any) {
 
     const validacion = servicioSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema del servicio", validacion.error);
+        
         throw new Error("Error al validar el esquema del servicio");
     }
 

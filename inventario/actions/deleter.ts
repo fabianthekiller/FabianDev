@@ -10,7 +10,7 @@ import prisma from "@/lib/prisma";
 export async function eliminarElemento(id: string, tipo: string) {
     // Eliminar un elemento de la base de datos
 
-    console.log("Eliminar elemento", id, tipo);
+    
     
 
     let res;
@@ -65,7 +65,7 @@ export async function eliminarElemento(id: string, tipo: string) {
             },
         });
     }
-    
+
 
 
     else {

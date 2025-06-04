@@ -45,8 +45,11 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
-                <Image src={`/logo.png`} width={100} height={100} alt="logo"
-
+                <Image 
+                    src={layoutConfig.colorScheme !== 'dark' ? '/logo_white.png' : '/logo.png'} 
+                    width={100} 
+                    height={100} 
+                    alt="logo"
                 />
                 <span>Rosal Motos</span>
             </Link>

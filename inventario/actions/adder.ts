@@ -15,7 +15,7 @@ export async function crearElemento(data: any, tipo: string) {
 
     // Crear un elemento en la base de datos
     
-    console.log("Crear elemento", data, tipo);
+    
     
     
     let res;

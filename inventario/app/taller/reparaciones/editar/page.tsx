@@ -151,7 +151,7 @@ export default async function MotocicletaEditarPage({
         }, {});
 
 
-        console.log("Valores iniciales de la reparacion:", valoresIniciales);
+        
         
 
     return (

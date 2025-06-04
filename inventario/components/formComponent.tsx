@@ -51,8 +51,8 @@ export const FormComponent: FC<FormComponentProps> = ({
         if (esquema) {
             const esquemaParseado = typeof esquema === 'string' ? JSON.parse(esquema) : esquema;
             const keys = Object.keys(esquemaParseado.properties);
-            console.log('esquemaParseado', esquemaParseado);
-            console.log('valoresIniciales', valoresIniciales);
+            
+            
 
             const validaciones: any = {};
             keys.forEach((key: string) => {
@@ -78,7 +78,7 @@ export const FormComponent: FC<FormComponentProps> = ({
                 }
             }
             )
-            console.log('validaciones', validaciones);
+            
         }
 
     }
@@ -100,13 +100,13 @@ export const FormComponent: FC<FormComponentProps> = ({
         onSubmit: async (values, {
 
         }) => {
-            console.log('values', values);
+            
             if (modo === 'crear') {
                 if (!tipoCreacion) {
                     throw new Error("tipoCreacion is undefined");
                 }
                 const crear = await crearElemento(values, tipoCreacion);
-                console.log('crear', crear);
+                
                 if (crear) {
                     toast.current?.show({
                         severity: 'success',
@@ -134,7 +134,7 @@ export const FormComponent: FC<FormComponentProps> = ({
                 }
 
                 const editar = await actualizarElemento(values, tipoCreacion);
-                console.log('editar', editar);
+                
                 if (editar) {
                     toast.current?.show({
                         severity: 'success',
@@ -174,10 +174,10 @@ export const FormComponent: FC<FormComponentProps> = ({
                     return acc;
                 }, {});
 
-                console.log('preasignadoValuesObject', preasignadoValuesObject, values);
+                
 
                 const crear = await asignarElemento(preasignadoValuesObject, tipoCreacion);
-                console.log('crear', crear);
+                
                 if (crear) {
                     toast.current?.show({
                         severity: 'success',
@@ -210,10 +210,10 @@ export const FormComponent: FC<FormComponentProps> = ({
 
 
     const buscarValores = async (event: any, key: string) => {
-        console.log('event', event, key);
+        
 
         const query = event.query;
-        console.log('query', query);
+        
 
         const response = await buscarElemento(query, key);
 
@@ -222,7 +222,7 @@ export const FormComponent: FC<FormComponentProps> = ({
             [key]: response
         }));
 
-        console.log('formik.values', formik.values);
+        
 
     }
 
@@ -249,7 +249,7 @@ export const FormComponent: FC<FormComponentProps> = ({
                     >
                         {esquema && Object.keys(esquema.properties).map((key: string) => {
                             const propiedad = esquema.properties[key];
-                            console.log('esquema.properties', key, propiedad);
+                            
 
                             return esquema.properties["extends"]?.properties?.ocultos?.default.find((item: any) => item === key) ?
                                 null
@@ -516,7 +516,7 @@ export const FormComponent: FC<FormComponentProps> = ({
 
                             <Button type="button" label="Ver formik" className="p-button-secondary"
                                 onClick={() => {
-                                    console.log('formik', formik.values);
+                                    
                                 }
                                 }
                             />

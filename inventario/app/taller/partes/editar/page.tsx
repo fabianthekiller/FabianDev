@@ -144,7 +144,7 @@ export default async function ParteEditarPage({
         }, {});
 
 
-        console.log("Valores iniciales de la parte:", valoresIniciales);
+        
         
 
     return (

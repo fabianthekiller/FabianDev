@@ -52,10 +52,10 @@ export default async function PartesCrearPage() {
 
     const editarFCN = async (data : any) => {
         "use server"
-        console.log("data", data);
+        
         const res  = await crearParte(data)
 
-        console.log("res", res);
+        
 
         if (res) {
             alert("Parte editado correctamente");

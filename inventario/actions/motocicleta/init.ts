@@ -38,7 +38,7 @@ export async function initVehiculos() {
         vehiculos.push(vehiculo);
     }
 
-    console.log(vehiculos);
+    
 
 
 
@@ -48,6 +48,6 @@ export async function initVehiculos() {
         data: vehiculos
 
     })
-    console.log(respuesta);
+    
 }
 

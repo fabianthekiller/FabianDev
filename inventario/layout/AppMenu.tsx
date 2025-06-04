@@ -36,7 +36,7 @@ const AppMenu = () => {
 
 
 
-    console.log("Session:", is_adminState)
+    
 
 
 

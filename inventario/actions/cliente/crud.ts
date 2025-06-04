@@ -123,7 +123,7 @@ export async function editarCliente(data: any) {
 
     const validacion = clienteSchemaEditar.safeParse(dataGet);
     if (!validacion.success) {
-        console.log("Error al validar el esquema del cliente", validacion.error);
+        
         throw new Error("Error al validar el esquema del cliente");
     }
 

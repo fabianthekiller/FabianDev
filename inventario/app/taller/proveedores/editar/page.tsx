@@ -141,7 +141,7 @@ export default async function ProveedorEditarPage({
         }, {});
 
 
-        console.log("Valores iniciales de la proveedor:", valoresIniciales);
+        
         
 
     return (
