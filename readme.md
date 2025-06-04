@@ -148,3 +148,79 @@ apikey: {{API_KEY}}
     "password": "contraseña123"
 }
 ```
+
+
+## Arquitectura de la Aplicación
+
+### Server Actions vs APIs Tradicionales
+
+En este proyecto utilizamos Server Actions de Next.js 14 por varias razones:
+
+1. **Seguridad Mejorada**
+   - Validación de datos en el servidor
+   - No exposición de endpoints API públicos
+   - Protección automática contra CSRF
+
+2. **Mejor Rendimiento**
+   - Eliminación de la capa API adicional
+   - Reducción de la latencia de red
+   - Optimización automática de caché
+
+3. **Desarrollo Simplificado**
+   - Menos código boilerplate
+   - Tipado directo entre cliente y servidor
+   - Manejo de errores más intuitivo
+
+### APIs Externas
+
+Sin embargo, mantenemos endpoints API tradicionales para:
+
+1. **Servicio de PDFs (Carbone)**
+```typescript
+POST /api/pdf/generate
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "template": "factura",
+    "data": {
+        // datos para el PDF
+    }
+}
+```
+
+2. **Integración con Servicios Externos**
+   - Autenticación de terceros
+   - Webhooks
+   - Servicios que requieren endpoints HTTP
+
+### Ejemplo de Server Action vs API
+
+**Server Action:**
+```typescript
+// actions/motocicleta/crud.ts
+"use server"
+export async function crearMoto(data: MotoData) {
+    // Validación y procesamiento directo
+    return await prisma.motocicleta.create({ data })
+}
+```
+
+**API Tradicional:**
+```typescript
+// api/pdf/route.ts
+export async function POST(req: Request) {
+    const data = await req.json()
+    const pdf = await generatePDF(data)
+    return new Response(pdf, {
+        headers: { 'Content-Type': 'application/pdf' }
+    })
+}
+```
+
+### Ventajas de Este Enfoque Híbrido
+
+- **Server Actions**: Para operaciones CRUD y lógica de negocio principal
+- **APIs**: Para servicios específicos que requieren endpoints HTTP
+- **Mejor Separación de Responsabilidades**
+- **Mayor Flexibilidad para Integraciones**
