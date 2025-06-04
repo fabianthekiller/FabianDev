@@ -46,14 +46,13 @@ export default function SignInPage(props: {
             <div className="surface-card p-4 shadow-2 border-round w-full lg:w-2 z-1 flex align-items-center flex-column">
                 <div className="flex justify-content-center">
                     <Image  
-                        src="/logo.png"
+                        src={isDark ? "/logo_white.png" : "/logo.png"}
                         alt="Logo"
                         width={100}
                         height={100}
                         className="mb-3"
                     />
                 </div>
-                {JSON.stringify(isDark)}
                 <h2 className="text-center mb-4">Conectarse a Rosal Motos</h2>
                 <form
                     className="flex flex-column gap-3"

@@ -8,5 +8,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|logo.png|loginbg.webp|/themes/viva-dark/theme.css|/themes/lara-light-indigo/theme.css).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|logo.png|logo_white.png|loginbg.webp|/themes/viva-dark/theme.css|/themes/lara-light-indigo/theme.css).*)"],
 }

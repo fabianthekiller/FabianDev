@@ -131,3 +131,20 @@ export { withAuth } from '@/middleware/auth'
 - Duración: 24 horas
 - Almacenamiento seguro en MongoDB
 - Renovación automática al usar la aplicación
+
+
+## Documentación API - Postman
+
+### Registro de Usuario
+```http
+POST /api/registeruser
+Host: https://server.tail115826.ts.net
+Content-Type: application/json
+apikey: {{API_KEY}}
+
+{
+    "name": "Usuario Prueba",
+    "email": "usuario@test.com",
+    "password": "contraseña123"
+}
+```
