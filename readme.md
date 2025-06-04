@@ -1,7 +1,11 @@
 # Rosal Motos - Sistema de Inventario por Fabian Guamanga
 
 Sistema moderno de gestión de inventario implementado con Next.js 14.2.26 y MongoDB.
+## Acceso en Vivo
 
+El sistema está actualmente desplegado y accesible en:
+
+[https://server.tail115826.ts.net/](https://server.tail115826.ts.net/)
 ## Requisitos Previos
 
 - Docker Desktop instalado y en ejecución
