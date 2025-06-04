@@ -73,3 +73,57 @@ Si encuentra problemas de conexión:
 2. Comprobar que los puertos 27017 y 4000 estén disponibles
 3. Revisar logs: `docker-compose logs`
 
+## Exposición a Internet con Tailscale
+
+### Configuración de Tailscale Funnel
+
+1. Instalar Tailscale:
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+```
+
+2. Iniciar sesión:
+```bash
+tailscale up
+```
+
+3. Habilitar Funnel para el servicio:
+```bash
+tailscale funnel 3000
+```
+
+El servicio estará disponible en:
+`https://<your-tailscale-name>.ts.net`
+
+### Notas de Seguridad
+- Asegurarse de tener las políticas de ACL configuradas
+- Monitorear el tráfico entrante
+- Considerar límites de ancho de banda
+
+
+## Autenticación y Seguridad
+
+### Auth.js Integration
+
+El sistema utiliza Auth.js para gestionar la autenticación:
+- Login seguro con credenciales
+- Protección de rutas mediante middleware
+- Manejo de sesiones de usuario
+
+### Middleware de Protección
+
+Las rutas protegidas utilizan middleware personalizado:
+```typescript
+// Ejemplo de uso en rutas API
+export { withAuth } from '@/middleware/auth'
+```
+
+### Rutas Protegidas
+- `/dashboard/*` - Requiere autenticación
+- `/api/*` - Validación de sesión
+- `/admin/*` - Requiere rol de administrador
+
+### Sesiones
+- Duración: 24 horas
+- Almacenamiento seguro en MongoDB
+- Renovación automática al usar la aplicación
