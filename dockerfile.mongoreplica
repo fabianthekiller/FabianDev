@@ -1,0 +1,19 @@
+ARG MONGO_VERSION
+
+FROM mongo:${MONGO_VERSION}
+
+ENV MONGO_REPLICA_PORT=27017
+
+ENTRYPOINT mongod --port $MONGO_REPLICA_PORT --replSet rs0 --bind_ip 0.0.0.0 & \
+MONGOD_PID=$!; \
+# Wait for MongoDB to be ready
+until mongo --port $MONGO_REPLICA_PORT --eval "print(\"waited for connection\")"; do sleep 1; done; \
+# Check if the replica set is already initialized
+CHECK_REPL_CMD="if (rs.status().ok) { print('Replica set already initialized'); } else { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: '$MONGO_REPLICA_HOST:$MONGO_REPLICA_PORT' }] }); }"; \
+# Execute the replica set command if not already initialized
+mongo admin --port $MONGO_REPLICA_PORT --eval "$CHECK_REPL_CMD"; \
+# Create admin user
+CREATE_USER_CMD="db.createUser({ user: 'fabian', pwd: 'moto2025', roles: [{ role: 'root', db: 'admin' }] });"; \
+mongo admin --port $MONGO_REPLICA_PORT --eval "$CREATE_USER_CMD"; \
+# Keep the container running by waiting on the mongo process
+echo "REPLICA SET ONLINE"; wait $MONGOD_PID;

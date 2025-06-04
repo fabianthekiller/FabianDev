@@ -1,0 +1,53 @@
+services:
+  mongodb:
+    build:
+      context: .
+      dockerfile: dockerfile.mongoreplica
+      args:
+        MONGO_VERSION: 5
+    container_name: mongo_motos
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo_data:/data/db
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      MONGO_REPLICA_PORT: 27017
+      MONGO_REPLICA_HOST: localhost
+      MONGO_COMMAND: 'mongosh'
+      MONGO_INITDB_ROOT_USERNAME: fabian
+      MONGO_INITDB_ROOT_PASSWORD: 'moto2025'
+      MONGO_INITDB_DATABASE: MOTOINVENTARIO
+    restart: unless-stopped
+    networks:
+      mongo_network:
+        aliases:
+          - mongo_motos
+        ipv4_address: 11.52.0.8
+  
+  carbone:
+    image: carbone/carbone-ee:full-4.25.8-fonts
+    platform: linux/amd64
+    ports:
+      - "4000:4000"
+    environment:
+      - CARBONE_EE_STUDIO=true
+      - CARBONE_EE_AUTHENTICATION=false
+    networks:
+      mongo_network:
+        aliases: 
+         - carbone
+        ipv4_address: 11.52.0.10
+
+
+
+
+networks:
+  mongo_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 11.52.0.0/24
+          gateway: 11.52.0.1
+
+

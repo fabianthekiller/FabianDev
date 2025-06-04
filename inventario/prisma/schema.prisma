@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Motocicleta {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  marca              String
+  modelo             String
+  anio               Int
+  descripcion        String?
+  imagen             String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  ClienteMotocicleta ClienteMotocicleta[]
+}
+
+model Partes {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  nombre      String
+  descripcion String?
+  precio      Float
+  cantidad    Int
+  imagen      String?
+  proveedor   Proveedor? @relation(fields: [proveedorId], references: [id])
+  proveedorId String?    @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  ReparacionPartes ReparacionPartes[]
+}
+
+model Proveedor {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre    String
+  telefono  String?
+  email     String?
+  direccion String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Partes    Partes[]
+}
+
+model Servicio {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre         String
+  descripcion    String?
+  precio         Float
+  tiempoEstimado String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  reparacionId   String?  @db.ObjectId
+}
+
+model ReparacionPartes {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  reparacion   Reparacion @relation(fields: [reparacionId], references: [id])
+  reparacionId String     @db.ObjectId
+  parte        Partes     @relation(fields: [parteId], references: [id])
+  parteId      String     @db.ObjectId
+  cantidad     Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Reparacion {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  nombre           String
+  descripcion      String
+  estado           String
+  clienteId        String             @db.ObjectId
+  cliente          Cliente            @relation(fields: [clienteId], references: [id])
+  fecha            DateTime
+  precioTotal      Float
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  ReparacionPartes ReparacionPartes[]
+  mecanidoId       String             @db.ObjectId
+  mecanico         User               @relation(fields: [mecanidoId], references: [id])
+}
+
+model ClienteMotocicleta {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  clienteId     String      @db.ObjectId
+  motocicletaId String      @db.ObjectId
+  cliente       Cliente     @relation(fields: [clienteId], references: [id])
+  motocicleta   Motocicleta @relation(fields: [motocicletaId], references: [id])
+  placa         String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Cliente {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  nombre             String
+  documento          String
+  telefono           String?
+  email              String?
+  direccion          String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  ClienteMotocicleta ClienteMotocicleta[]
+  Reparacion         Reparacion[]
+  Factura            Factura[]
+}
+
+model Factura {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  clienteId    String   @db.ObjectId
+  cliente      Cliente  @relation(fields: [clienteId], references: [id])
+  reparaciones Json?    @db.Json
+  servicios    Json?    @db.Json
+  numero       String
+  serie        String
+  tipo         String
+  formaPago    String
+  metodoPago   String
+  moneda       String
+  subtotal     Float
+  descuento    Float
+  impuesto     Float
+  fecha        DateTime
+  total        Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model User {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  password      String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  is_admin      Boolean      @default(false)
+  is_mecanico   Boolean      @default(false)
+  isActive      Boolean      @default(true)
+  Reparacion    Reparacion[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
